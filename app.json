@@ -1,0 +1,12 @@
+{
+  "name": "chessBot",
+  "displayName": "chessBot",
+  "expo": {
+    "name": "chessBot",
+    "slug": "chessBot",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
