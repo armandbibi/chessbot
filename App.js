@@ -1,21 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import {ChessBoardHolder} from './screens/ChessBoardHolder.js';
 
 export default function App() {
-  return (
+  return ( 
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+      <ChessBoardHolder></ChessBoardHolder>
+  </View>
   );
 }
 
+
 const styles = StyleSheet.create({
+
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    width:Dimensions.get('screen').width,
+    height: Dimensions.get('screen').height,
+    backgroundColor: '#111111'
+  }
 });
