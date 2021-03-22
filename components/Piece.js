@@ -33,6 +33,7 @@ export function ShapePiece(props) {
 
 
     const screenWidth = Dimensions.get('screen').width;
+    const screenHeight = Dimensions.get('screen').height;
 
 
     let color = props.piece & white ? 'white' : 'black'
@@ -45,13 +46,26 @@ export function ShapePiece(props) {
 
 
     function roundUp(event, gestureState) {
-       
+        
+        // valeur en pixels du x et y actuels
+
+        var currentX = gestureState.moveX
+        var currentY = gestureState.moveY        
+
+        // Diviser x en 8 troncons et tronquer le resultat
+        var MatrixPosX = Math.floor((currentX * 8) /  screenWidth)
+        // Pareil pour y mais en tenant compte de la marge (150) et du fait que le damier soit carre (d'ou lutilisation de screenWidth et pâs screenHeight)
+        var MatrixPosY = Math.min(Math.max(Math.floor(((currentY - 150) * 8) / screenWidth), 0), 7)
+
+
+        console.log("[", MatrixPosX + 1, ", ", MatrixPosY + 1, "]");
+
         props.redraw(props.placement.tile, props.placement.rank, 5, 5)
     }
 
     return (
     <Draggable
-       debug={true}
+    //    debug={true}
         x={positionX}
         y={positionY}
         renderSize={185}
