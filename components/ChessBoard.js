@@ -10,16 +10,16 @@ export default class ChessBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tableData: createBoard(null),
-      piecePosition: fenToPieces(startingPosition)
+      piecePosition: fenToPieces(startingPosition), 
+      tableData : createBoard()
     }
 
   }
 
   render() {
+    
     const state = this.state;
-    pieces = AbsolutePiecePosition(state.piecePosition)
-    state.tableData = createBoard(state.piecePosition)
+    
     return (
       <View style={styles.container}>
         <Table borderStyle={{ borderWidth: 0, borderColor: '#c8e1ff' }}>
@@ -49,7 +49,7 @@ function createBoard(position) {
   const tab = [8];
 
 
-  if (position == null) {
+  
     for (let file = 0; file < 8; file++) {
       tab[file] = [8];
       for (let rank = 0; rank < 8; rank++) {
@@ -57,7 +57,7 @@ function createBoard(position) {
         tab[file][rank] = <View style={[styles.case, color]}></View>
       }
     }
-  }
+  
     return tab;
 }
 
@@ -66,18 +66,24 @@ class AbsolutePiecePosition extends Component {
   
   constructor(props) {
     super(props);
+    this.state = {
+      positions : props.positions
+    }
   }
 
-  handleRedraw(oldRank, oldFile, newRank, newFile) {
-
-    console.log("changing", oldRank, oldFile, newRank, newFile)
-    let piece = positions[oldRank][oldFile];
-    positions[oldRank][oldFile] = null;
-    positions[newRank][newFile] = piece;
-  }
+  
 
   render() {
 
+    function handleRedraw(oldRank, oldFile, newRank, newFile) {
+
+      console.log("changing", oldRank, oldFile, newRank, newFile)
+      let piece = positions[oldRank][oldFile];
+      positions[oldRank][oldFile] = null;
+      positions[newRank][newFile] = piece;
+    }
+
+    let positions = this.state.positions;
     absolutePieces = []
     if (positions != null) {
 

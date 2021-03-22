@@ -1,9 +1,7 @@
 import * as React from "react"
 import { StyleSheet, View, Text, TouchableOpacity, Alert, Dimensions, ShadowPropTypesIOS } from 'react-native';
-import { color } from "react-native-reanimated/lib/commonjs/derived";
 import Draggable from 'react-native-draggable';
 import Svg, { G, Path } from "react-native-svg"
-import { round } from "react-native-reanimated";
 import { useState } from 'react';
 
 
