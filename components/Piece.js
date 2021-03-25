@@ -58,8 +58,19 @@ function ShapePiece({piece, placement, style, changeBoard}) {
         matrixPos.x = Math.floor((x * 8) /  screenWidth)
         // Pareil pour y mais en tenant compte de la marge (150) et du fait que le damier soit carre (d'ou lutilisation de screenWidth et pâs screenHeight)
         matrixPos.y = Math.min(Math.max(Math.floor(((y - 150) * 8) / screenWidth), 0), 7)
+<<<<<<< HEAD
         
         return matrixPos;
+=======
+        
+        return matrixPos;
+    }
+
+    function handleRedraw(oldRank, oldFile, newRank, newFile) {
+        
+        // console.log(oldRank, oldFile, newRank, newFile)
+       changeBoard({payload:{oldRank, oldFile, newRank, newFile}})
+>>>>>>> visual
     }
     function highlightMoves(event) {
         console.log(positionX);
@@ -91,9 +102,15 @@ function ShapePiece({piece, placement, style, changeBoard}) {
                 console.log("Rook");
             break;
         }
+<<<<<<< HEAD
         // setPositionX(gestureState.moveX);
         console.log( color );
         props.redraw(props.placement.tile, props.placement.rank, 5, 5)
+=======
+        console.log( color );
+
+        handleRedraw(placement.rank, placement.tile, matrixPos.y, matrixPos.x)
+>>>>>>> visual
     }
 
     let color = piece & white ? 'white' : 'black'
