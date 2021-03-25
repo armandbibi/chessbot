@@ -102,15 +102,9 @@ function ShapePiece({piece, placement, style, changeBoard}) {
                 console.log("Rook");
             break;
         }
-<<<<<<< HEAD
-        // setPositionX(gestureState.moveX);
-        console.log( color );
-        props.redraw(props.placement.tile, props.placement.rank, 5, 5)
-=======
         console.log( color );
 
         handleRedraw(placement.rank, placement.tile, matrixPos.y, matrixPos.x)
->>>>>>> visual
     }
 
     let color = piece & white ? 'white' : 'black'
