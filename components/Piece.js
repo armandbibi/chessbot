@@ -2,8 +2,12 @@ import * as React from "react"
 import { StyleSheet, View, Text, TouchableOpacity, Alert, Dimensions, ShadowPropTypesIOS } from 'react-native';
 import Draggable from 'react-native-draggable';
 import Svg, { G, Path } from "react-native-svg"
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
+
+import { connect } from 'react-redux';
+import { changeBoard } from '../store/actions/board';
+import { bindActionCreators } from 'redux';
 
 const None = 0;
 const King = 1;
@@ -39,19 +43,10 @@ export function getPieceColor(piece) {
 }
 
 
-export function ShapePiece(props) {
-    
-    
+function ShapePiece({piece, placement, style, changeBoard}) {
+
+
     const screenWidth = Dimensions.get('screen').width;
-    const screenHeight = Dimensions.get('screen').height;
-    
-    
-    const color = getPieceColor(props.piece) == white ? 'white' : 'black'
-    
-    const [positionX, setPositionX] = useState(props.placement.tile * screenWidth / 8 );
-    const [positionY, setPositionY] = useState(props.placement.rank * screenWidth / 8);
-    // console.log(positionX);
-    
     
     function getMatrixFromPixel(x, y) {
        
@@ -76,7 +71,7 @@ export function ShapePiece(props) {
 
         console.log("En [", matrixPos.x + 1, ", ", matrixPos.y + 1, "] je bouge un ");
         
-        switch (getPieceShape(props.piece)) {
+        switch (getPieceShape(piece)) {
             case Pawn:
                 console.log("Pawn");
             break;
@@ -101,6 +96,12 @@ export function ShapePiece(props) {
         props.redraw(props.placement.tile, props.placement.rank, 5, 5)
     }
 
+    let color = piece & white ? 'white' : 'black'
+   
+    const [positionX, setPositionX] = useState(placement.tile * screenWidth / 8 );
+    const [positionY, setPositionY] = useState(placement.rank * screenWidth / 8);
+
+   
     return (
     <Draggable
     //    debug={true}
@@ -112,7 +113,7 @@ export function ShapePiece(props) {
     >
         
         <Svg
-        {...props}
+        {...style}
         xmlns="http://www.w3.org/2000/svg"
         width="45.000000pt"
         height="45.000000pt"
@@ -124,7 +125,7 @@ export function ShapePiece(props) {
           fill={color}
           stroke="none"
         >
-            <Shape piece={props.piece}></Shape>
+            <Shape piece={piece}></Shape>
         </G>
       </Svg>
       </Draggable>
@@ -179,7 +180,7 @@ const shapeValue = {
 
     let shapeCode =  piece & ~(white | black);
     
-    return (shapeValue[getPieceShape(piece)]());
+    return (shapeValue[shapeCode]());
 }
 
 export function fenToPieces(fenString) {
@@ -210,4 +211,16 @@ export function fenToPieces(fenString) {
         }
     });
     return pieceShapes
-}
+} 
+
+const mapStateToProps = state => ({
+    board: state.board,
+  });
+  
+  const mapDispatchToProps = dispatch =>  {
+    return bindActionCreators({ changeBoard }, dispatch);
+  };
+  
+
+
+  export default connect(mapStateToProps, mapDispatchToProps)(ShapePiece)
