@@ -33,6 +33,16 @@ export const pieces = {
 }
 
 
+
+export function getPieceShape(piece) {
+    return (piece & ~( black | white ))
+} 
+
+export function getPieceColor(piece) {
+    return (piece & ( black | white ))
+}
+
+
 function ShapePiece({piece, placement, style, changeBoard}) {
 
 
@@ -40,18 +50,15 @@ function ShapePiece({piece, placement, style, changeBoard}) {
     
     function handleRedraw(oldRank, oldFile, newRank, newFile) {
         
+        console.log(oldRank, oldFile, newRank, newFile)
        changeBoard({payload:{oldRank, oldFile, newRank, newFile}})
     }
-    const screenHeight = Dimensions.get('screen').height;
 
-    let color = piece & white ? 'white' : 'black'
-   
-    const [positionX, setPositionX] = useState(placement.tile * screenWidth / 8 );
-    const [positionY, setPositionY] = useState(placement.rank * screenWidth / 8);
-   // console.log(props);
-
-
-
+    
+ 
+    function highlightMoves(event,  gestureState) {
+        console.log(gestureState);
+    }
 
     function roundUp(event, gestureState) {
         
@@ -68,8 +75,7 @@ function ShapePiece({piece, placement, style, changeBoard}) {
 
         console.log("En [", MatrixPosX + 1, ", ", MatrixPosY + 1, "] je bouge un ");
         
-        pieceShape = piece & ~( black | white )
-        switch (pieceShape) {
+        switch (getPieceShape(piece)) {
             case Pawn:
                 console.log("Pawn");
             break;
@@ -90,23 +96,23 @@ function ShapePiece({piece, placement, style, changeBoard}) {
             break;
         }
 
-        console.log( (piece & ( white | black ) ) == black ? "Noir" : "Blanc"   );
-       const oldRank = placement.tile;
-       const oldFile = placement.rank;
-        console.log(oldRank,oldFile, MatrixPosY, MatrixPosX)
-        // props.redraw(props.placement.tile, props.placement.rank, MatrixPosX, MatrixPosY)
-       changeBoard({payload:{oldFile, oldRank, newRank: MatrixPosX, newFile: MatrixPosY}})
-
+        handleRedraw(placement.rank, placement.tile, MatrixPosY, MatrixPosX)
     }
+
+    let color = piece & white ? 'white' : 'black'
+   
+    const [positionX, setPositionX] = useState(placement.tile * screenWidth / 8 );
+    const [positionY, setPositionY] = useState(placement.rank * screenWidth / 8);
 
    
     return (
     <Draggable
-    //    debug={true}
+       debug={true}
         x={positionX}
         y={positionY}
         renderSize={185}
-        onDragRelease={(event, gestureState) => roundUp(event, gestureState)}>
+        onDragRelease={(event, gestureState) => roundUp(event, gestureState)}
+    >
         
         <Svg
         {...style}

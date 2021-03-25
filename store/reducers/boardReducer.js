@@ -33,8 +33,8 @@ function movePiece(board, {payload}) {
 
     const pieceToMove = payload.payload
     const newBoard = [...board];
-    let piece = newBoard[pieceToMove.oldRank][pieceToMove.oldFile];
-    newBoard[pieceToMove.oldRank][pieceToMove.oldFile] = null;
-    newBoard[pieceToMove.newRank][pieceToMove.newFile] = piece;
+    let piece = newBoard[pieceToMove.oldFile][pieceToMove.oldRank];
+    newBoard[pieceToMove.oldFile][pieceToMove.oldRank] = null;
+    newBoard[pieceToMove.newFile][pieceToMove.newRank] = piece;
     return newBoard
 }

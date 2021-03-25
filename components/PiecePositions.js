@@ -19,27 +19,19 @@ class AbsolutePiecePosition extends Component {
         this.turn++;
         let positions = this.props.board;
         absolutePieces = []
-        if (positions != null) {
+        return positions.reduce((res, file, fileIndex) => {
+        file.forEach((piece, pieceIndex) => {
+          if (piece) {
+            const style = {
+              tile: fileIndex,
+              rank: pieceIndex
+            };
+            res.push(<ShapePiece placement={style} piece={piece} key={fileIndex + "" +pieceIndex + "" + piece}/>);
+          }
+        });
+        return res;
+        }, [])
 
-            for (let rank = 0; rank < positions.length; rank++) {
-                let file = positions[rank];
-                for (let tile = 0; tile < file.length; tile++) {
-
-
-                    let piece = positions[rank][tile]
-                    if (piece != null) {
-
-                        let style = {
-                            tile: rank,
-                            rank: tile
-                        }
-                        let piecePlace = <ShapePiece key={tile +" " +  rank + " " + piece} placement={style} piece={positions[rank][tile]}></ShapePiece>
-                        absolutePieces.push(piecePlace)
-                    }
-                }
-            }
-        }
-        return absolutePieces;
     }
 }
 

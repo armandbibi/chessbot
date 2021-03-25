@@ -5,18 +5,8 @@ import ChessBoard from '../components/ChessBoard';
 export function ChessBoardHolder (){
     
         return (
-            <View style={styles.chess}>
+            <View>
                 <ChessBoard></ChessBoard>
             </View>   
         );
 }
-
-export const scanner = () => {
-    return <Scanner></Scanner>}
-
-const styles = StyleSheet.create({
-    
-    chess : {
-    }
-
-});

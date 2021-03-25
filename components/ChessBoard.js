@@ -37,14 +37,12 @@ export class ChessBoard extends Component {
 }
 
 const screenWidth = Dimensions.get('screen').width;
-const screenHeight = Dimensions.get('screen').height;
 
 const styles = StyleSheet.create({
   container: { marginTop: 150, backgroundColor: '#fff' },
-  text: { margin: 0, backgroundColor: 'red' },
+  text: { margin: 6, backgroundColor: 'red' },
   case: { width: screenWidth / 8, height: screenWidth / 8 },
   blackCase: { backgroundColor: '#9F6E5A' },
-  
   whiteCase: { backgroundColor: '#F0B8B8' },
   board: { width: screenWidth, height: screenWidth / 8 },
 
