@@ -58,8 +58,31 @@ export function ShapePiece(props) {
         var MatrixPosY = Math.min(Math.max(Math.floor(((currentY - 150) * 8) / screenWidth), 0), 7)
 
 
-        console.log("[", MatrixPosX + 1, ", ", MatrixPosY + 1, "]");
+        console.log("En [", MatrixPosX + 1, ", ", MatrixPosY + 1, "] je bouge un ");
+        
+        pieceShape = props.piece & ~( black | white )
+        switch (pieceShape) {
+            case Pawn:
+                console.log("Pawn");
+            break;
+            case Bishop:
+                console.log("Bishop");
+            break;
+            case Queen:
+                console.log("Queen");
+            break;
+            case King:
+                console.log("King");
+            break;
+            case Knigth:
+                console.log("Knight");
+            break;
+            case Rook:
+                console.log("Rook");
+            break;
+        }
 
+        console.log( (props.piece & ( white | black ) ) == black ? "Noir" : "Blanc"   );
         props.redraw(props.placement.tile, props.placement.rank, 5, 5)
     }
 
