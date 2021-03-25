@@ -58,10 +58,6 @@ function ShapePiece({piece, placement, style, changeBoard}) {
         matrixPos.x = Math.floor((x * 8) /  screenWidth)
         // Pareil pour y mais en tenant compte de la marge (150) et du fait que le damier soit carre (d'ou lutilisation de screenWidth et pâs screenHeight)
         matrixPos.y = Math.min(Math.max(Math.floor(((y - 150) * 8) / screenWidth), 0), 7)
-<<<<<<< HEAD
-        
-        return matrixPos;
-=======
         
         return matrixPos;
     }
@@ -70,7 +66,6 @@ function ShapePiece({piece, placement, style, changeBoard}) {
         
         // console.log(oldRank, oldFile, newRank, newFile)
        changeBoard({payload:{oldRank, oldFile, newRank, newFile}})
->>>>>>> visual
     }
     function highlightMoves(event) {
         console.log(positionX);
