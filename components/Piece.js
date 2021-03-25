@@ -42,21 +42,71 @@ function ShapePiece({piece, placement, style, changeBoard}) {
         
        changeBoard({payload:{oldRank, oldFile, newRank, newFile}})
     }
+    const screenHeight = Dimensions.get('screen').height;
 
     let color = piece & white ? 'white' : 'black'
    
     const [positionX, setPositionX] = useState(placement.tile * screenWidth / 8 );
     const [positionY, setPositionY] = useState(placement.rank * screenWidth / 8);
+   // console.log(props);
+
+
+
+
+    function roundUp(event, gestureState) {
+        
+        // valeur en pixels du x et y actuels
+
+        var currentX = gestureState.moveX
+        var currentY = gestureState.moveY        
+
+        // Diviser x en 8 troncons et tronquer le resultat
+        var MatrixPosX = Math.floor((currentX * 8) /  screenWidth)
+        // Pareil pour y mais en tenant compte de la marge (150) et du fait que le damier soit carre (d'ou lutilisation de screenWidth et pâs screenHeight)
+        var MatrixPosY = Math.min(Math.max(Math.floor(((currentY - 150) * 8) / screenWidth), 0), 7)
+
+
+        console.log("En [", MatrixPosX + 1, ", ", MatrixPosY + 1, "] je bouge un ");
+        
+        pieceShape = piece & ~( black | white )
+        switch (pieceShape) {
+            case Pawn:
+                console.log("Pawn");
+            break;
+            case Bishop:
+                console.log("Bishop");
+            break;
+            case Queen:
+                console.log("Queen");
+            break;
+            case King:
+                console.log("King");
+            break;
+            case Knigth:
+                console.log("Knight");
+            break;
+            case Rook:
+                console.log("Rook");
+            break;
+        }
+
+        console.log( (piece & ( white | black ) ) == black ? "Noir" : "Blanc"   );
+       const oldRank = placement.tile;
+       const oldFile = placement.rank;
+        console.log(oldRank,oldFile, MatrixPosY, MatrixPosX)
+        // props.redraw(props.placement.tile, props.placement.rank, MatrixPosX, MatrixPosY)
+       changeBoard({payload:{oldFile, oldRank, newRank: MatrixPosX, newFile: MatrixPosY}})
+
+    }
 
    
     return (
     <Draggable
-       debug={true}
+    //    debug={true}
         x={positionX}
         y={positionY}
         renderSize={185}
-        onDragRelease={(event, gestureState) => handleRedraw(placement.tile, placement.rank, 0, 5)}
-    >
+        onDragRelease={(event, gestureState) => roundUp(event, gestureState)}>
         
         <Svg
         {...style}

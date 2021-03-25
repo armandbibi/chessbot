@@ -15,11 +15,8 @@ const boardReducer = (state = initialState, action) => {
     switch (action.type) {
         case BOARD_CHANGE:
             {
-                console.log("0000  ", action.payload)   
 
-                console.log("old state", state)
                state = {...state, board: movePiece(state.board, {payload : action.payload})} 
-               console.log("new state", state)
                return state
             }
             
@@ -38,6 +35,6 @@ function movePiece(board, {payload}) {
     const newBoard = [...board];
     let piece = newBoard[pieceToMove.oldRank][pieceToMove.oldFile];
     newBoard[pieceToMove.oldRank][pieceToMove.oldFile] = null;
-    newBoard[pieceToMove.newFile][pieceToMove.newRank] = piece;
+    newBoard[pieceToMove.newRank][pieceToMove.newFile] = piece;
     return newBoard
 }
