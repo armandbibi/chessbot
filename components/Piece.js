@@ -53,25 +53,28 @@ export function ShapePiece(props) {
     // console.log(positionX);
     
     
-    
-    function highlightMoves(event,  gestureState) {
-        console.log(gestureState);
+    function getMatrixFromPixel(x, y) {
+       
+        let matrixPos = {
+            x: 0, 
+            y: 0
+        }
+        // Diviser x en 8 troncons et tronquer le resultat
+        matrixPos.x = Math.floor((x * 8) /  screenWidth)
+        // Pareil pour y mais en tenant compte de la marge (150) et du fait que le damier soit carre (d'ou lutilisation de screenWidth et pâs screenHeight)
+        matrixPos.y = Math.min(Math.max(Math.floor(((y - 150) * 8) / screenWidth), 0), 7)
+        
+        return matrixPos;
+    }
+    function highlightMoves(event) {
+        console.log(positionX);
     }
 
     function roundUp(event, gestureState) {
         
-        // valeur en pixels du x et y actuels
+        const matrixPos = getMatrixFromPixel(gestureState.moveX, gestureState.moveY);
 
-        var currentX = gestureState.moveX
-        var currentY = gestureState.moveY        
-
-        // Diviser x en 8 troncons et tronquer le resultat
-        var MatrixPosX = Math.floor((currentX * 8) /  screenWidth)
-        // Pareil pour y mais en tenant compte de la marge (150) et du fait que le damier soit carre (d'ou lutilisation de screenWidth et pâs screenHeight)
-        var MatrixPosY = Math.min(Math.max(Math.floor(((currentY - 150) * 8) / screenWidth), 0), 7)
-
-
-        console.log("En [", MatrixPosX + 1, ", ", MatrixPosY + 1, "] je bouge un ");
+        console.log("En [", matrixPos.x + 1, ", ", matrixPos.y + 1, "] je bouge un ");
         
         switch (getPieceShape(props.piece)) {
             case Pawn:
@@ -93,19 +96,18 @@ export function ShapePiece(props) {
                 console.log("Rook");
             break;
         }
-
-        console.log( colo );
+        // setPositionX(gestureState.moveX);
+        console.log( color );
         props.redraw(props.placement.tile, props.placement.rank, 5, 5)
     }
 
     return (
     <Draggable
     //    debug={true}
-    o
         x={positionX}
         y={positionY}
         renderSize={185}
-        onPressIn={(event, gestureState) => highlightMoves(event, gestureState)}
+        onPressIn={(event) => highlightMoves(event)}
         onDragRelease={(event, gestureState) => roundUp(event, gestureState)}
     >
         

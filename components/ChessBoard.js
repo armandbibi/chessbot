@@ -76,11 +76,6 @@ class AbsolutePiecePosition extends Component {
   
 
   render() {
-    const patate ={
-      truite: {
-        nom: 'Hubert',
-      },
-    }
 
     function handleRedraw(oldRank, oldFile, newRank, newFile) {
 
