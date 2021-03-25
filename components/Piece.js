@@ -2,8 +2,12 @@ import * as React from "react"
 import { StyleSheet, View, Text, TouchableOpacity, Alert, Dimensions, ShadowPropTypesIOS } from 'react-native';
 import Draggable from 'react-native-draggable';
 import Svg, { G, Path } from "react-native-svg"
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
+
+import { connect } from 'react-redux';
+import { changeBoard } from '../store/actions/board';
+import { bindActionCreators } from 'redux';
 
 const None = 0;
 const King = 1;
@@ -29,37 +33,33 @@ export const pieces = {
 }
 
 
-export function ShapePiece(props) {
+function ShapePiece({piece, placement, style, changeBoard}) {
 
 
     const screenWidth = Dimensions.get('screen').width;
-
-
-    let color = props.piece & white ? 'white' : 'black'
-   
-    const [positionX, setPositionX] = useState(props.placement.tile * screenWidth / 8 );
-    const [positionY, setPositionY] = useState(props.placement.rank * screenWidth / 8);
-   // console.log(props);
-
-
-
-
-    function roundUp(event, gestureState) {
-       
-        props.redraw(props.placement.tile, props.placement.rank, 5, 5)
+    
+    function handleRedraw(oldRank, oldFile, newRank, newFile) {
+        
+       changeBoard({payload:{oldRank, oldFile, newRank, newFile}})
     }
 
+    let color = piece & white ? 'white' : 'black'
+   
+    const [positionX, setPositionX] = useState(placement.tile * screenWidth / 8 );
+    const [positionY, setPositionY] = useState(placement.rank * screenWidth / 8);
+
+   
     return (
     <Draggable
        debug={true}
         x={positionX}
         y={positionY}
         renderSize={185}
-        onDragRelease={(event, gestureState) => roundUp(event, gestureState)}
+        onDragRelease={(event, gestureState) => handleRedraw(placement.tile, placement.rank, 0, 5)}
     >
         
         <Svg
-        {...props}
+        {...style}
         xmlns="http://www.w3.org/2000/svg"
         width="45.000000pt"
         height="45.000000pt"
@@ -71,7 +71,7 @@ export function ShapePiece(props) {
           fill={color}
           stroke="none"
         >
-            <Shape piece={props.piece}></Shape>
+            <Shape piece={piece}></Shape>
         </G>
       </Svg>
       </Draggable>
@@ -157,4 +157,16 @@ export function fenToPieces(fenString) {
         }
     });
     return pieceShapes
-}
+} 
+
+const mapStateToProps = state => ({
+    board: state.board,
+  });
+  
+  const mapDispatchToProps = dispatch =>  {
+    return bindActionCreators({ changeBoard }, dispatch);
+  };
+  
+
+
+  export default connect(mapStateToProps, mapDispatchToProps)(ShapePiece)
