@@ -76,37 +76,36 @@ class AbsolutePiecePosition extends Component {
   
 
   render() {
+    const patate ={
+      truite: {
+        nom: 'Hubert',
+      },
+    }
 
     function handleRedraw(oldRank, oldFile, newRank, newFile) {
 
       // console.log("changing", oldRank, oldFile, newRank, newFile)
-      let piece = positions[oldRank][oldFile];
+      const piece = positions[oldRank][oldFile];
       positions[oldRank][oldFile] = null;
       positions[newRank][newFile] = piece;
     }
 
-    let positions = this.state.positions;
-    absolutePieces = []
-    if (positions != null) {
+    const positions = this.state.positions ?? [];
+    
 
-      for (let rank = 0; rank < positions.length; rank++) {
-        let file = positions[rank];
-        for (let tile = 0; tile < file.length; tile++) {
-
-
-          let piece = positions[rank][tile]
-          if (piece != null) {
-
-            let style = {
-              tile: rank,
-              rank: tile
-            }
-            let piecePlace = <ShapePiece placement={style} piece={positions[rank][tile]} redraw={handleRedraw} ></ShapePiece>
-            absolutePieces.push(piecePlace)
+    return positions.reduce((res, file, fileIndex) => {
+        file.forEach((piece, pieceIndex) => {
+          if (piece) {
+            const style = {
+              tile: fileIndex,
+              rank: pieceIndex
+            };
+            res.push(<ShapePiece placement={style} piece={piece} redraw={handleRedraw} />);
           }
-        }
-      }
-    }
-    return absolutePieces;
+        });
+        return res;
+        }, [])
+
+
   }
 }

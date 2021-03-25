@@ -29,21 +29,34 @@ export const pieces = {
 }
 
 
+
+export function getPieceShape(piece) {
+    return (piece & ~( black | white ))
+} 
+
+export function getPieceColor(piece) {
+    return (piece & ( black | white ))
+}
+
+
 export function ShapePiece(props) {
-
-
+    
+    
     const screenWidth = Dimensions.get('screen').width;
     const screenHeight = Dimensions.get('screen').height;
-
-
-    let color = props.piece & white ? 'white' : 'black'
-   
+    
+    
+    const color = getPieceColor(props.piece) == white ? 'white' : 'black'
+    
     const [positionX, setPositionX] = useState(props.placement.tile * screenWidth / 8 );
     const [positionY, setPositionY] = useState(props.placement.rank * screenWidth / 8);
-   // console.log(props);
-
-
-
+    // console.log(positionX);
+    
+    
+    
+    function highlightMoves(event,  gestureState) {
+        console.log(gestureState);
+    }
 
     function roundUp(event, gestureState) {
         
@@ -60,8 +73,7 @@ export function ShapePiece(props) {
 
         console.log("En [", MatrixPosX + 1, ", ", MatrixPosY + 1, "] je bouge un ");
         
-        pieceShape = props.piece & ~( black | white )
-        switch (pieceShape) {
+        switch (getPieceShape(props.piece)) {
             case Pawn:
                 console.log("Pawn");
             break;
@@ -82,16 +94,18 @@ export function ShapePiece(props) {
             break;
         }
 
-        console.log( (props.piece & ( white | black ) ) == black ? "Noir" : "Blanc"   );
+        console.log( colo );
         props.redraw(props.placement.tile, props.placement.rank, 5, 5)
     }
 
     return (
     <Draggable
     //    debug={true}
+    o
         x={positionX}
         y={positionY}
         renderSize={185}
+        onPressIn={(event, gestureState) => highlightMoves(event, gestureState)}
         onDragRelease={(event, gestureState) => roundUp(event, gestureState)}
     >
         
@@ -163,7 +177,7 @@ const shapeValue = {
 
     let shapeCode =  piece & ~(white | black);
     
-    return (shapeValue[shapeCode]());
+    return (shapeValue[getPieceShape(piece)]());
 }
 
 export function fenToPieces(fenString) {
