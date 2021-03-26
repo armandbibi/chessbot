@@ -1,7 +1,7 @@
 import React, { Component, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Alert, Dimensions } from 'react-native';
 import { Table, TableWrapper, Row, Cell, Rows } from 'react-native-table-component';
-import ShapePiece from "./Piece.js"
+import ShapePiece from "./Piece"
 
 import { connect } from 'react-redux';
 import { changeBoard } from '../store/actions/board';

@@ -43,7 +43,7 @@ export function getPieceColor(piece) {
 }
 
 
-function ShapePiece({piece, placement, style, changeBoard}) {
+function ShapePiece({piece, placement, style, changeBoard, board}) {
 
 
     const screenWidth = Dimensions.get('screen').width;
@@ -67,8 +67,10 @@ function ShapePiece({piece, placement, style, changeBoard}) {
         // console.log(oldRank, oldFile, newRank, newFile)
        changeBoard({payload:{oldRank, oldFile, newRank, newFile}})
     }
-    function highlightMoves(event) {
-        console.log(positionX);
+
+    function setDragged(event) {
+
+        
     }
 
     function roundUp(event, gestureState) {
@@ -114,7 +116,7 @@ function ShapePiece({piece, placement, style, changeBoard}) {
         x={positionX}
         y={positionY}
         renderSize={185}
-        onPressIn={(event) => highlightMoves(event)}
+        onPressIn={(event) => setDragged(event)}
         onDragRelease={(event, gestureState) => roundUp(event, gestureState)}
     >
         
@@ -220,7 +222,7 @@ export function fenToPieces(fenString) {
 } 
 
 const mapStateToProps = state => ({
-    board: state.board,
+    board: state.board.board,
   });
   
   const mapDispatchToProps = dispatch =>  {
