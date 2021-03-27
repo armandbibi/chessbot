@@ -1,22 +1,19 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import {ChessBoardHolder} from './screens/ChessBoardHolder.js';
+import React from 'react'
+import { StyleSheet, Text, View, Dimensions } from 'react-native'
+import { ChessBoardHolder } from './screens/ChessBoardHolder.js'
 
 export default function App() {
-  return ( 
+  return (
     <View style={styles.container}>
       <ChessBoardHolder></ChessBoardHolder>
-  </View>
-  );
+    </View>
+  )
 }
 
-
 const styles = StyleSheet.create({
-
   container: {
-    width:Dimensions.get('screen').width,
+    width: Dimensions.get('screen').width,
     height: Dimensions.get('screen').height,
-    backgroundColor: '#111111'
-  }
-});
+    backgroundColor: '#111111',
+  },
+})
