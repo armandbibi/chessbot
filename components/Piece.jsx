@@ -42,33 +42,37 @@ export function getPieceColor(piece) {
 }
 
 
-function ShapePiece({piece, placement, style, changeBoard}) {
+function ShapePiece({piece, placement, style, changeBoard, board}) {
 
 
     const screenWidth = Dimensions.get('screen').width;
     
+    function getMatrixFromPixel(x, y) {
+       
+        let matrixPos = {
+            x: 0, 
+            y: 0
+        }
+        // Diviser x en 8 troncons et tronquer le resultat
+        matrixPos.x = Math.floor((x * 8) /  screenWidth)
+        // Pareil pour y mais en tenant compte de la marge (150) et du fait que le damier soit carre (d'ou lutilisation de screenWidth et pâs screenHeight)
+        matrixPos.y = Math.min(Math.max(Math.floor(((y - 150) * 8) / screenWidth), 0), 7)
+        
+        return matrixPos;
+    }
+
     function handleRedraw(oldRank, oldFile, newRank, newFile) {
        changeBoard({payload:{oldRank, oldFile, newRank, newFile}})
     }
 
-    
- 
-    function highlightMoves(event,  gestureState) {
-        console.log(gestureState);
+    function setDragged(event) {
+
+        
     }
 
     function roundUp(event, gestureState) {
         
-        // valeur en pixels du x et y actuels
-
-        var currentX = gestureState.moveX
-        var currentY = gestureState.moveY        
-
-        // Diviser x en 8 troncons et tronquer le resultat
-        var MatrixPosX = Math.floor((currentX * 8) /  screenWidth)
-        // Pareil pour y mais en tenant compte de la marge (150) et du fait que le damier soit carre (d'ou lutilisation de screenWidth et pâs screenHeight)
-        var MatrixPosY = Math.min(Math.max(Math.floor(((currentY - 150) * 8) / screenWidth), 0), 7)
-
+        const matrixPos = getMatrixFromPixel(gestureState.moveX, gestureState.moveY);
 
         
         switch (getPieceShape(piece)) {
@@ -91,8 +95,9 @@ function ShapePiece({piece, placement, style, changeBoard}) {
                 console.log("Rook");
             break;
         }
+        console.log( color );
 
-        handleRedraw(placement.rank, placement.tile, MatrixPosY, MatrixPosX)
+        handleRedraw(placement.rank, placement.tile, matrixPos.y, matrixPos.x)
     }
 
     let color = piece & white ? 'white' : 'black'
@@ -103,10 +108,11 @@ function ShapePiece({piece, placement, style, changeBoard}) {
    
     return (
     <Draggable
-       debug={true}
+    //    debug={true}
         x={positionX}
         y={positionY}
         renderSize={185}
+        onPressIn={(event) => setDragged(event)}
         onDragRelease={(event, gestureState) => roundUp(event, gestureState)}
     >
         
@@ -212,7 +218,7 @@ export function fenToPieces(fenString) {
 } 
 
 const mapStateToProps = state => ({
-    board: state.board,
+    board: state.board.board,
   });
   
   const mapDispatchToProps = dispatch =>  {

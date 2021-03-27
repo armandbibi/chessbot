@@ -1,13 +1,14 @@
 import React, { Component, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Alert, Dimensions } from 'react-native';
 import { Table, TableWrapper, Row, Cell, Rows } from 'react-native-table-component';
-import { fenToPieces } from "./Piece.js"
+import { fenToPieces } from "./Piece"
 
 import AbsolutePiecePosition from "./PiecePositions"
 
 import { connect } from 'react-redux';
 import { changeBoard } from '../store/actions/board';
 import { bindActionCreators } from 'redux';
+import { ChessBoardSquare } from './ChessboardSquare.jsx';
 
 
 const startingPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"
@@ -42,9 +43,6 @@ const screenWidth = Dimensions.get('screen').width;
 const styles = StyleSheet.create({
   container: { marginTop: 150, backgroundColor: '#fff' },
   text: { margin: 6, backgroundColor: 'red' },
-  case: { width: screenWidth / 8, height: screenWidth / 8 },
-  blackCase: { backgroundColor: '#9F6E5A' },
-  whiteCase: { backgroundColor: '#F0B8B8' },
   board: { width: screenWidth, height: screenWidth / 8 },
 
 });
@@ -57,8 +55,8 @@ function createBoard() {
     for (let file = 0; file < 8; file++) {
       tab[file] = [8];
       for (let rank = 0; rank < 8; rank++) {
-        let color = ((file + rank) % 2 != 0) ? styles.blackCase : styles.whiteCase;
-        tab[file][rank] = <View style={[styles.case, color]}></View>
+        let color = ((file + rank) % 2 != 0) ? 'black' : 'white';
+        tab[file][rank] = <ChessBoardSquare  color={color}/>
       }
     }
   
@@ -66,7 +64,7 @@ function createBoard() {
 }
 
 const mapStateToProps = state => ({
-  board: state.board,
+  board: state.board.board,
 });
 
 const ActionCreators = Object.assign(
