@@ -12,6 +12,7 @@ import { bindActionCreators } from 'redux';
 
 const startingPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"
 
+
 export class ChessBoard extends Component {
   constructor(props) {
     super(props);

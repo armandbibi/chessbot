@@ -33,7 +33,6 @@ export const pieces = {
 }
 
 
-
 export function getPieceShape(piece) {
     return (piece & ~( black | white ))
 } 
@@ -49,8 +48,6 @@ function ShapePiece({piece, placement, style, changeBoard}) {
     const screenWidth = Dimensions.get('screen').width;
     
     function handleRedraw(oldRank, oldFile, newRank, newFile) {
-        
-        console.log(oldRank, oldFile, newRank, newFile)
        changeBoard({payload:{oldRank, oldFile, newRank, newFile}})
     }
 
@@ -73,7 +70,6 @@ function ShapePiece({piece, placement, style, changeBoard}) {
         var MatrixPosY = Math.min(Math.max(Math.floor(((currentY - 150) * 8) / screenWidth), 0), 7)
 
 
-        console.log("En [", MatrixPosX + 1, ", ", MatrixPosY + 1, "] je bouge un ");
         
         switch (getPieceShape(piece)) {
             case Pawn:

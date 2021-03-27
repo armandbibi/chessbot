@@ -1,12 +1,14 @@
 import { BOARD_CHANGE } from "../constants"
 import { fenToPieces } from "../../components/Piece"
+import {generateMoves} from  "../../utils/moves/legalMove"
 
 const startingPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"
-const secondPosition = "rnbqkbnr/PPPPPPPP/8/8/8/8/pppppppp/RNBQKBNR"
+
+const testMovePosition = "8/3Q4/8/4B3/8/2K2N1/6R1/8"
 
 
 const initialState = {
-    board: fenToPieces(startingPosition)
+    board: fenToPieces(testMovePosition)
 }
 
 
@@ -31,6 +33,8 @@ export default boardReducer;
 function movePiece(board, {payload}) {
 
 
+    generateMoves(board)
+    
     const pieceToMove = payload.payload
     const newBoard = [...board];
     let piece = newBoard[pieceToMove.oldFile][pieceToMove.oldRank];
