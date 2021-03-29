@@ -10,8 +10,6 @@ import { changeBoard } from '../store/actions/board';
 import { bindActionCreators } from 'redux';
 import { ChessBoardSquare } from './ChessboardSquare';
 
-const startingPosition = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR';
-
 export class ChessBoard extends Component {
     constructor(props) {
         super(props);

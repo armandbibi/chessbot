@@ -9,6 +9,7 @@ import { bindActionCreators } from 'redux';
 
 const startingPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"
 
+const testMovePosition = "8/8/3q4/3bb3/4k2k/8/8/8"
 
 
 class AbsolutePiecePosition extends Component {
@@ -29,7 +30,11 @@ class AbsolutePiecePosition extends Component {
             res.push(<ShapePiece placement={style} piece={piece} key={fileIndex + "" +pieceIndex + "" + piece}/>);
           }
         });
-        return res;
+
+
+
+
+                    return res;
         }, [])
 
     }
