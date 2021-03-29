@@ -9,18 +9,13 @@ function generateDiagonalyMove(x, y, maxDistance, board) {
     const maxY = y + maxDistance < maxSize ? y + maxDistance : maxSize;
 
     for (let i = 0; i < 8; i++) {
-        if (x - i >= 0 && y - i >= 0) console.log({ x: x - i, y: y - i });
-
-        console.log('---------');
-        if (x + i < 8 && y - i >= 0) console.log({ x: x + i, y: y - i });
-
-        console.log('---------');
-
-        if (x - i >= 0 && y + i < 8) console.log({ x: x - i, y: y + i });
-
-        console.log('---------');
-
-        if (x + i < 8 && y + i < 8) console.log({ x: x + i, y: y + i });
+        // if (x - i >= 0 && y - i >= 0) console.log({ x: x - i, y: y - i });
+        // console.log('---------');
+        // if (x + i < 8 && y - i >= 0) console.log({ x: x + i, y: y - i });
+        // console.log('---------');
+        // if (x - i >= 0 && y + i < 8) console.log({ x: x - i, y: y + i });
+        // console.log('---------');
+        // if (x + i < 8 && y + i < 8) console.log({ x: x + i, y: y + i });
     }
 }
 
