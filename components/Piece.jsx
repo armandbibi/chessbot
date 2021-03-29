@@ -39,7 +39,7 @@ export function getPieceColor(piece) {
     return piece & (black | white);
 }
 
-function ShapePiece({ piece, placement, style, changeBoard, board }) {
+function ShapePiece({ piece, placement, style, changeBoard }) {
     const screenWidth = Dimensions.get('screen').width;
 
     function getMatrixFromPixel(x, y) {
@@ -55,11 +55,6 @@ function ShapePiece({ piece, placement, style, changeBoard, board }) {
         return matrixPos;
     }
 
-    function handleRedraw(oldRank, oldFile, newRank, newFile) {
-        // console.log(oldRank, oldFile, newRank, newFile)
-        changeBoard({ payload: { oldRank, oldFile, newRank, newFile } });
-    }
-
     function setDragged(event) {
         console.log('la piece machin est drag ', placement.tile + 1, placement.rank + 1);
     }
@@ -67,30 +62,14 @@ function ShapePiece({ piece, placement, style, changeBoard, board }) {
     function roundUp(event, gestureState) {
         const matrixPos = getMatrixFromPixel(gestureState.moveX, gestureState.moveY);
 
-        
-        switch (getPieceShape(piece)) {
-            case Pawn:
-                console.log('Pawn');
-                break;
-            case Bishop:
-                console.log('Bishop');
-                break;
-            case Queen:
-                console.log('Queen');
-                break;
-            case King:
-                console.log('King');
-                break;
-            case Knigth:
-                console.log('Knight');
-                break;
-            case Rook:
-                console.log('Rook');
-                break;
-        }
-        console.log(color);
-
-        handleRedraw(placement.rank, placement.tile, matrixPos.y, matrixPos.x);
+        changeBoard({
+            payload: {
+                oldRank: placement.rank,
+                oldFile: placement.tile,
+                newRank: matrixPos.y,
+                newFile: matrixPos.x,
+            },
+        });
     }
 
     let color = piece & white ? 'white' : 'black';
@@ -152,15 +131,6 @@ const PawnShape = () => (
     <Path d="M730 1721 c-51 -16 -108 -51 -138 -86 -51 -58 -65 -94 -70 -181 -5 -94 12 -146 71 -211 l36 -39 -70 -12 c-92 -16 -129 -35 -129 -67 0 -33 37 -51 146 -70 48 -8 92 -21 97 -28 14 -20 -1 -323 -22 -422 -29 -141 -40 -160 -97 -174 -144 -36 -254 -125 -254 -206 l0 -25 508 2 507 3 -3 30 c-9 79 -92 145 -237 190 l-70 21 -22 71 c-12 38 -27 108 -33 154 -13 88 -19 354 -8 364 3 3 37 10 74 16 219 29 225 118 12 146 l-48 6 35 35 c80 83 103 212 55 320 -55 125 -213 201 -340 163z" />
 );
 const NoneShape = () => <Path></Path>;
-
-const fenValues = {
-    k: King,
-    p: Pawn,
-    n: Knigth,
-    b: Bishop,
-    r: Rook,
-    q: Queen,
-};
 
 function Shape({ piece }) {
     const shapeValue = {

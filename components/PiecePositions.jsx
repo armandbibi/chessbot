@@ -30,7 +30,11 @@ class AbsolutePiecePosition extends Component {
             res.push(<ShapePiece placement={style} piece={piece} key={fileIndex + "" +pieceIndex + "" + piece}/>);
           }
         });
-        return res;
+
+
+
+
+                    return res;
         }, [])
 
     }
