@@ -46,8 +46,8 @@ function createBoard() {
     for (let file = 0; file < 8; file++) {
         tab[file] = [8];
         for (let rank = 0; rank < 8; rank++) {
-            let color = (file + rank) % 2 != 0 ? 'black' : 'white';
-            tab[file][rank] = <ChessBoardSquare color={color} />;
+            let squareId = (rank * 8 + file).toString();
+            tab[file][rank] = <ChessBoardSquare squareId={squareId} />;
         }
     }
 

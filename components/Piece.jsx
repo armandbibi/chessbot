@@ -4,9 +4,8 @@ import Draggable from 'react-native-draggable';
 import Svg, { G, Path } from 'react-native-svg';
 import { useState } from 'react';
 
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { changeBoard } from '../store/actions/board';
-import { bindActionCreators } from 'redux';
 
 const None = 0;
 const King = 1;
@@ -39,8 +38,10 @@ export function getPieceColor(piece) {
     return piece & (black | white);
 }
 
-function ShapePiece({ piece, placement, style, changeBoard }) {
+function ShapePiece({ piece, placement, style }) {
+    const dispatch = useDispatch();
     const screenWidth = Dimensions.get('screen').width;
+    const board = useSelector((state) => state.board.board);
 
     function getMatrixFromPixel(x, y) {
         let matrixPos = {
@@ -56,20 +57,22 @@ function ShapePiece({ piece, placement, style, changeBoard }) {
     }
 
     function setDragged(event) {
-        //og('la piece machin est drag ', placement.tile + 1, placement.rank + 1);
+        // console.log('la piece machin est drag ', placement.tile + 1, placement.rank + 1);
     }
 
     function roundUp(event, gestureState) {
         const matrixPos = getMatrixFromPixel(gestureState.moveX, gestureState.moveY);
 
-        changeBoard({
-            payload: {
-                oldRank: placement.rank,
-                oldFile: placement.tile,
-                newRank: matrixPos.y,
-                newFile: matrixPos.x,
-            },
-        });
+        dispatch(
+            changeBoard({
+                payload: {
+                    oldRank: placement.rank,
+                    oldFile: placement.tile,
+                    newRank: matrixPos.y,
+                    newFile: matrixPos.x,
+                },
+            })
+        );
     }
 
     let color = piece & white ? 'white' : 'black';
@@ -157,3 +160,5 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShapePiece);
+
+export default ShapePiece;

@@ -1,6 +1,10 @@
 import React from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { connect, useSelector, useDispatch } from 'react-redux';
 
+import { StyleSheet, View, Dimensions, Button } from 'react-native';
+import { bindActionCreators } from 'redux';
+import { highlightChessboardSquare } from '../store/actions/chessboardSquare';
+import { getChessboardSquareHighlighted } from '../store/selectors/chessboardSquare';
 const screenWidth = Dimensions.get('screen').width;
 
 const styles = StyleSheet.create({
@@ -11,11 +15,39 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-    color: string;
+    squareId: string;
+    // board:
 };
 
-export function ChessBoardSquare({ color }: Props) {
-    // const isHighlited = useSelector((state) => getIsHighligtedSquare(state, {x, y}))
+export function ChessBoardSquare({ squareId }: Props) {
+    const dispatch = useDispatch();
+    const isHighlighted = useSelector((state) => getChessboardSquareHighlighted(state, squareId));
 
-    return <View style={[styles.case, styles[color]]} />;
+    function handleIsHighlighted() {
+        dispatch(highlightChessboardSquare(squareId));
+    }
+
+    const rank = Math.floor(Number(squareId) / 8);
+    const file = Number(squareId) % 8;
+    // console.log('rank et file', rank, file);
+    let color = (file + rank) % 2 !== 0 ? 'black' : 'white';
+    if (isHighlighted) {
+        color = 'highlighted';
+    }
+
+    return (
+        <View style={[styles.case, styles[color]]}>
+            <Button onPress={handleIsHighlighted} title="" />
+        </View>
+    );
 }
+
+const mapStatetoProps = (state) => ({
+    board: state.board.board,
+});
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({ highlightChessboardSquare }, dispatch);
+};
+
+export default connect(mapStatetoProps, mapDispatchToProps)(ChessBoardSquare);
