@@ -1,4 +1,3 @@
-
 const None = 0;
 const King = 1;
 const Pawn = 2;
@@ -11,37 +10,32 @@ export const white = 8;
 export const black = 16;
 
 const fenValues = {
-    'k': King,
-    'p': Pawn,
-    'n': Knigth,
-    'b': Bishop,
-    'r': Rook,
-    'q': Queen,
-}
+    k: King,
+    p: Pawn,
+    n: Knigth,
+    b: Bishop,
+    r: Rook,
+    q: Queen,
+};
 
-export const fenToPieces: (fenString: String) => number[][] = function(fenString: String) {
-    
+export const fenToPieces: (fenString: String) => number[] = function (fenString: String) {
     let file = 0;
     let rank = 0;
-    
-    let pieceShapes = Array.from(Array(8), () => new Array(8).fill(null))
-    fenString.split('').forEach(char => {
 
-    if (char === '/')
-    {
-        file  = 0;
-        rank++;
-    } else {
-        if (isNaN(parseInt(char))) {
-            let color = (char.toUpperCase() == char) ? white : black;
-            let piece = fenValues[char.toLowerCase()]
-            pieceShapes[file++][rank] = piece | color;
+    let pieceShapes = Array.from(Array(64).fill(null));
+    fenString.split('').forEach((char) => {
+        if (char === '/') {
+            file = 0;
+            rank++;
+        } else {
+            if (isNaN(parseInt(char))) {
+                let color = char.toUpperCase() == char ? white : black;
+                let piece = fenValues[char.toLowerCase()];
+                pieceShapes[rank * 8 + file++] = piece | color;
+            } else {
+                file += parseInt(char);
+            }
         }
-        else {
-            file += parseInt(char);
-        }
-    }
     });
-    return pieceShapes
-}
-
+    return pieceShapes;
+};

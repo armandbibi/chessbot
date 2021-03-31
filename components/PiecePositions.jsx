@@ -1,56 +1,41 @@
-import React, { Component, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Alert, Dimensions } from 'react-native';
-import { Table, TableWrapper, Row, Cell, Rows } from 'react-native-table-component';
-import ShapePiece from "./Piece"
+import React, { Component } from 'react';
+import ShapePiece from './Piece';
 
 import { connect } from 'react-redux';
 import { changeBoard } from '../store/actions/board';
 import { bindActionCreators } from 'redux';
+import { View } from 'react-native';
 
-const startingPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"
+const startingPosition = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR';
 
-const testMovePosition = "8/8/3q4/3bb3/4k2k/8/8/8"
+const testMovePosition = '8/8/3q4/3bb3/4k2k/8/8/8';
 
-
-class AbsolutePiecePosition extends Component {
-
-    turn = 0;
-    render() {
-
-        this.turn++;
-        let positions = this.props.board;
-        absolutePieces = []
-        return positions.reduce((res, file, fileIndex) => {
-        file.forEach((piece, pieceIndex) => {
-          if (piece) {
-            const style = {
-              tile: fileIndex,
-              rank: pieceIndex
-            };
-            res.push(<ShapePiece placement={style} piece={piece} key={fileIndex + "" +pieceIndex + "" + piece}/>);
-          }
-        });
-
-
-
-
-                    return res;
-        }, [])
-
-    }
+function AbsolutePiecePosition({ board }) {
+    return board.reduce((res, element, index) => {
+        const piece = mapArrayOfPIeceToPositionsOnScreens(element, index);
+        if (piece) res.push(piece);
+        return res;
+    }, []);
 }
 
-const mapStateToProps = state => ({
-    board: state.board.board
+function mapArrayOfPIeceToPositionsOnScreens(element, index) {
+    if (element) {
+        const placement = {
+            tile: Math.floor(index / 8),
+            rank: index % 8,
+        };
+        return <ShapePiece placement={placement} piece={element} key={index} />;
+    }
+    return null;
+}
+
+const mapStateToProps = (state) => ({
+    board: state.board.board,
 });
 
-const ActionCreators = Object.assign(
-    {},
-    changeBoard,
-);
-const mapDispatchToProps = dispatch => ({
+const ActionCreators = Object.assign({}, changeBoard);
+const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators(ActionCreators, dispatch),
 });
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(AbsolutePiecePosition)
+export default connect(mapStateToProps, mapDispatchToProps)(AbsolutePiecePosition);

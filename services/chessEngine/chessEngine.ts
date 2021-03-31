@@ -1,9 +1,10 @@
 import { pieces, getPieceShape } from './moves/generalMoves';
+
 import { fenToPieces } from './utils/fen/fen';
 export { fenToPieces } from './utils/fen/fen';
 
 export default class ChessEngine {
-    board: number[][];
+    board: number[];
 
     initBoard(fern: String) {
         this.board = fenToPieces(fern);

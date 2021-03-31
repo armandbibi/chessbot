@@ -13,7 +13,7 @@ const initialState = {
 const boardReducer = (state = initialState, action) => {
     switch (action.type) {
         case BOARD_CHANGE: {
-            state = { ...state, board: movePiece(state.board, { payload: action.payload }) };
+            state = { ...state, board: movePiece(state.board, action.payload) };
             return state;
         }
 
@@ -27,10 +27,13 @@ export default boardReducer;
 function movePiece(board, { payload }) {
     generateMoves(board);
 
-    const pieceToMove = payload.payload;
+    const pieceToMove = payload;
+    const oldIndex = pieceToMove.oldFile * 8 + pieceToMove.oldRank;
+    const newIndex = pieceToMove.newFile * 8 + pieceToMove.newRank;
+
     const newBoard = [...board];
-    let piece = newBoard[pieceToMove.oldFile][pieceToMove.oldRank];
-    newBoard[pieceToMove.oldFile][pieceToMove.oldRank] = null;
-    newBoard[pieceToMove.newFile][pieceToMove.newRank] = piece;
+    let piece = newBoard[oldIndex];
+    newBoard[oldIndex] = null;
+    newBoard[newIndex] = piece;
     return newBoard;
 }

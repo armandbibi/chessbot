@@ -1,94 +1,78 @@
+function generateDiagonalyMove(index, maxDistance, board) {
+    const piece = board[index];
+    const validPositions = [];
 
-function generateDiagonalyMove(x, y, maxDistance, board) {
+    for (let i = 0; i < maxDistance + 1; i++) {
+        if (index + 9 * i < 64) validPosition.push(board[index + 9 * i]);
 
-    const legalMoves = [];
-    const minX = (x - maxDistance > 0) ? x - maxDistance : 0;
-    const minY = (y - maxDistance > 0) ? y - maxDistance : 0;
-    
-    maxSize = board.length - 1;
+        if (index - 9 * i >= 0) validPosition.push(board[index - 9 * i]);
 
-    const maxX = (x + maxDistance < maxSize) ? x + maxDistance : maxSize;
-    const maxY = (y + maxDistance < maxSize) ? y + maxDistance : maxSize;
+        if (index - 7 * i >= 0) validPosition.push(board[index - 7 * i]);
 
-    
-    console.log("origin: " + x + " " + y)
-
-    // diagonal
-    iX = maxX;
-    iY = minY;
-    for (let i = 0; i < 8; i++) {
-
-        if (x - i >= 0 && y - i >= 0)
-            console.log({x: x - i, y: y - i})
-
-        console.log("---------")
-        if (x + i < 8 && y - i >= 0)
-            console.log({x: x + i, y: y - i})
-        
-        console.log("---------")
-
-        if (x - i >= 0 && y + i < 8)
-            console.log({x: x - i, y: y + i})
-
-         console.log("---------")
-            
-        if (x + i < 8 && y + i < 8)
-            console.log({x: x + i, y: y + i})
-
-        }
+        if (index + 7 * i < 64) validPosition.push(board[index + 7 * i]);
+    }
 }
 
-function generateKingMoves (x, y, board) {
-    
-//    return generateDiagonalyMove(x, y, 1, board)
+function generatelinearMove(index, maxDistance, board) {
+    const piece = board[index];
+    const validPositions = [];
+
+    const rank = Math?.floor(index / 8);
+    const file = index % 8;
+    for (let i = 0; i < 8; i++) {
+        validPosition.push(rank + i * 8);
+        validPosition.push(file * 8 + i);
+    }
+}
+
+function generateKingMoves(x, y, board) {
+    //    return generateDiagonalyMove(x, y, 1, board)
 }
 
 function generatePawnsMoves() {
-    return
+    return;
 }
 
-function generateKnigthMoves() {
+function generateKnigthMoves() {}
+
+function generateBishopMoves(index, board) {
+    return generateDiagonalyMove(index, 8, board);
 }
 
-function generateBishopMoves(x, y, board) {
-    return generateDiagonalyMove(x, y, 8, board)
+function generateRookMoves() {}
+
+function generateQueenMoves() {}
+const None = { id: 0, generateMove: [] };
+
+const King = { id: 1, generateMove: generateKingMoves };
+
+const Pawn = { id: 2, generateMove: generatePawnsMoves };
+
+const Knigth = { id: 3, generateMove: generateKnigthMoves };
+
+const Bishop = { id: 4, generateMove: generateBishopMoves };
+
+const Rook = { id: 5, generateMove: generateRookMoves };
+
+const Queen = { id: 6, generateMove: generateQueenMoves };
+
+export function getPieceShape(piece) {
+    return piece & ~(black | white);
 }
 
-function generateRookMoves() {
-
+export function getPieceColor(piece) {
+    return piece & (black | white);
 }
-
-function generateQueenMoves() {
-
-}
-const None = {id: 0,generateMove: []};
-
-const King = {id: 1, generateMove:  generateKingMoves}
-
-const Pawn = {id: 2, generateMove: generatePawnsMoves}
-
-const Knigth = {id: 3, generateMove:  generateKnigthMoves}
-
-const Bishop = { id: 4, generateMove: generateBishopMoves}
-
-const Rook = { id: 5, generateMove: generateRookMoves }
-
-const Queen = { id: 6, generateMove: generateQueenMoves}
-
-export function getPieceShape(piece) {return (piece & ~( black | white ))} 
-
-export function getPieceColor(piece) {return (piece & ( black | white ))}
 
 export const white = 8;
 export const black = 16;
 
 export const pieces = {
-    0 : None,
-    1 : King,
-    2  :Pawn,
-    3 : Knigth,
-    4 : Bishop,
-    5 : Rook,
-    6 : Queen,
-}
-
+    0: None,
+    1: King,
+    2: Pawn,
+    3: Knigth,
+    4: Bishop,
+    5: Rook,
+    6: Queen,
+};

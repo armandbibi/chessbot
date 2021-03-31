@@ -56,7 +56,7 @@ function ShapePiece({ piece, placement, style, changeBoard }) {
     }
 
     function setDragged(event) {
-        console.log('la piece machin est drag ', placement.tile + 1, placement.rank + 1);
+        //og('la piece machin est drag ', placement.tile + 1, placement.rank + 1);
     }
 
     function roundUp(event, gestureState) {
@@ -134,6 +134,7 @@ const NoneShape = () => <Path></Path>;
 
 function Shape({ piece }) {
     const shapeValue = {
+        0: null,
         1: KingShape,
         2: PawnShape,
         3: KnigthShape,
@@ -145,28 +146,6 @@ function Shape({ piece }) {
     let shapeCode = piece & ~(white | black);
 
     return shapeValue[shapeCode]();
-}
-
-export function fenToPieces(fenString) {
-    let file = 0;
-    let rank = 0;
-
-    let pieceShapes = Array.from(Array(8), () => new Array(8).fill(null));
-    fenString.split('').forEach((char) => {
-        if (char === '/') {
-            file = 0;
-            rank++;
-        } else {
-            if (isNaN(char)) {
-                let color = char.toUpperCase() == char ? white : black;
-                let piece = fenValues[char.toLowerCase()];
-                pieceShapes[file++][rank] = piece | color;
-            } else {
-                file += parseInt(char);
-            }
-        }
-    });
-    return pieceShapes;
 }
 
 const mapStateToProps = (state) => ({
