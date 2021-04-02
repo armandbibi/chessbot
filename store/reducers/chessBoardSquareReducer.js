@@ -64,17 +64,17 @@ const chessboardSquareReducer = (state = initialState, action) => {
         case CHESSBOARD_SQUARE_SELECTED: {
             const { squareIds } = action;
 
-            squareIds.forEach((squareId) => {
-                if (!state.squares[squareId]) {
-                    state.squares[squareId] = { isSelected: true };
-                }
-            });
-            state.squares = Object.entries(state.squares).reduce((res, [squareIndex, squareData]) => {
-                res[squareIndex] = { ...squareData, isSelected: squareIds.includes(squareIndex) };
-                // console.log(res[squareIndex]);
-                return res;
-            }, {});
-            return state;
+            // squareIds.forEach((squareId) => {
+            //     if (!state.squares[squareId]) {
+            //         state.squares[squareId] = { isSelected: true };
+            //     }
+            // });
+            // state.squares = Object.entries(state.squares).reduce((res, [squareIndex, squareData]) => {
+            //     res[squareIndex] = { ...squareData, isSelected: squareIds.includes(squareIndex) };
+            //     // console.log(res[squareIndex]);
+            //     return res;
+            // }, {});
+            // return state;
         }
         default: {
             return state;
