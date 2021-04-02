@@ -1,1 +1,1 @@
-export const getChessboardSquareHighlighted = (state, squareId) => state.squares[squareId]?.isHighlighted;
+export const getChessboardSquare = (state, squareId) => state?.squares[squareId];

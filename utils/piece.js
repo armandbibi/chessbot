@@ -3,14 +3,16 @@ function generateDiagonalyMove(index, maxDistance, board) {
     const validPositions = [];
 
     for (let i = 0; i < maxDistance + 1; i++) {
-        if (index + 9 * i < 64) validPosition.push(board[index + 9 * i]);
+        if (index + 9 * i < 64) validPositions.push(board[index + 9 * i]);
 
-        if (index - 9 * i >= 0) validPosition.push(board[index - 9 * i]);
+        if (index - 9 * i >= 0) validPositions.push(board[index - 9 * i]);
 
-        if (index - 7 * i >= 0) validPosition.push(board[index - 7 * i]);
+        if (index - 7 * i >= 0) validPositions.push(board[index - 7 * i]);
 
-        if (index + 7 * i < 64) validPosition.push(board[index + 7 * i]);
+        if (index + 7 * i < 64) validPositions.push(board[index + 7 * i]);
     }
+
+    return validPositions;
 }
 
 function generatelinearMove(index, maxDistance, board) {
@@ -20,9 +22,10 @@ function generatelinearMove(index, maxDistance, board) {
     const rank = Math?.floor(index / 8);
     const file = index % 8;
     for (let i = 0; i < 8; i++) {
-        validPosition.push(rank + i * 8);
-        validPosition.push(file * 8 + i);
+        validPositions.push(rank + i * 8);
+        validPositions.push(file * 8 + i);
     }
+    return validPositions;
 }
 
 function generateKingMoves(x, y, board) {

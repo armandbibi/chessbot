@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { changeBoard } from '../store/actions/board';
+import { selectChessboardSquare } from '../store/actions/chessboardSquare';
 
 const None = 0;
 const King = 1;
@@ -57,7 +58,8 @@ function ShapePiece({ piece, placement, style }) {
     }
 
     function setDragged(event) {
-        // console.log('la piece machin est drag ', placement.tile + 1, placement.rank + 1);
+        const squareId = placement.rank * 8 + placement.tile;
+        dispatch(selectChessboardSquare(squareId));
     }
 
     function roundUp(event, gestureState) {
@@ -150,15 +152,5 @@ function Shape({ piece }) {
 
     return shapeValue[shapeCode]();
 }
-
-const mapStateToProps = (state) => ({
-    board: state.board.board,
-});
-
-const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({ changeBoard }, dispatch);
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ShapePiece);
 
 export default ShapePiece;

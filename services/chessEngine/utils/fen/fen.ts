@@ -31,7 +31,7 @@ export const fenToPieces: (fenString: String) => number[] = function (fenString:
             if (isNaN(parseInt(char))) {
                 let color = char.toUpperCase() == char ? white : black;
                 let piece = fenValues[char.toLowerCase()];
-                pieceShapes[rank * 8 + file++] = piece | color;
+                pieceShapes[file++ * 8 + rank] = piece | color;
             } else {
                 file += parseInt(char);
             }
